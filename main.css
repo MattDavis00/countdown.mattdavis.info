@@ -1,0 +1,118 @@
+body {
+    margin: 0;
+}
+
+.column {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-transition: .6s;
+    transition: .6s;
+}
+
+.column.dark {
+    background-color: #222222;
+}
+
+.clock {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10rem;
+    font-weight: 300;
+    -webkit-transition: .6s;
+    transition: .6s;
+}
+
+.clock.dark {
+    color: #dddddd;
+}
+
+
+/* The switch - the box around the slider */
+.switch {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color:transparent;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #444444;
+    -webkit-transition: .6s;
+    transition: .6s;
+
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #dddddd;
+    -webkit-transition: .6s;
+    transition: .6s;
+}
+
+input:checked + .slider {
+    background-color: #dddddd;
+}
+
+input:checked + .slider:before {
+    background-color: #444444;
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+/*
+CSS Alterations For Mobile Devices
+*/
+@media (max-width: 991.98px) {
+
+    .clock {
+        font-size: 16vw;
+    }
+  
+}
+  
