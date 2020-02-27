@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient} from '@angular/common/http';
+import { ActivatedRoute } from "@angular/router";
+
+import backendURL from '../backendURL';
 
 @Component({
   selector: 'app-countdown',
@@ -7,9 +11,89 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CountdownComponent implements OnInit {
 
-  constructor() { }
+  theme: boolean = false;
+  timeRemaining: string = "00:00:00";
+
+  id: string = "";
+  name: string = "";
+  timestamp: string;
+
+  constructor(private http: HttpClient, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.id = this.route.snapshot.paramMap.get("id");
+
+    this.http.post<{
+      success: boolean;
+      errors: [];
+      id: string;
+      name: string;
+      datetime: string;
+    }>(backendURL + "/get-countdown",
+    {
+      "id": {"data": this.id, "id": "id"},
+    })
+    .subscribe(
+      data  => {
+        console.log("POST Request is successful ", data);
+        if (data.success) {
+          this.id = data.id;
+          this.name = data.name;
+          console.log(data.datetime);
+          this.timestamp = data.datetime;
+          var timer = setInterval(this.updateClock, 1);
+        } else {
+          // this.errService.handleErrors(this.el, data.errors, ["email", "password"]);
+        }
+      },
+      error  => {
+        console.log("Error", error);
+        // this.errService.handleErrors(this.el, [{"id": "fatal", "reason": "Unable to perform request. Please try again."}], []);
+      }
+
+    );
+  }
+
+  padZeros(data, desiredLength) {
+    while (data.toString().length < desiredLength) {
+      data += "0" + data;
+    }
+    return data;
+  }
+  
+  updateClock() {
+    var currentDate = new Date();
+    var targetTime = new Date(this.timestamp);
+    var millisecondsDelta = targetTime.getTime() - currentDate.getTime();
+    var d = new Date(millisecondsDelta);
+    // console.log(d);
+    console.log(currentDate);
+    console.log(targetTime);
+    // var h = this.padZeros(d.getHours(), 2);
+    // var m = this.padZeros(d.getMinutes(), 2);
+    // var s = this.padZeros(d.getSeconds(), 2);
+    // var ms = this.padZeros(d.getMilliseconds(), 3);
+    var h = d.getHours();
+    var m = d.getMinutes();
+    var s = d.getSeconds();
+    var ms = d.getMilliseconds();
+    // var time = h + ":" + m + ":" + s + ":" + ms;
+    var time = h + ":" + m + ":" + s;
+    if (millisecondsDelta <= 0)
+      time = "00:00:00";
+
+    time = "11:11:11";
+    this.timeRemaining = time;
+  }
+  
+  themeChange() {
+    if (this.theme) {
+      document.getElementsByClassName('column')[0].classList.remove("dark");
+      document.getElementsByClassName('clock')[0].classList.remove("dark");
+    } else {
+      document.getElementsByClassName('column')[0].classList.add("dark");
+      document.getElementsByClassName('clock')[0].classList.add("dark");
+    }
   }
 
 }

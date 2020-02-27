@@ -1,1 +1,16 @@
-<p>create-countdown works!</p>
+<!-- Clock Text -->
+<div class="column dark">
+    <div class="input">
+        <input name="year" [(ngModel)]="year"><br>
+        <input name="month" [(ngModel)]="month"><br>
+        <input name="day" [(ngModel)]="day"><br>
+        <input name="hour" [(ngModel)]="hour"><br>
+        <input name="minute" [(ngModel)]="minute"><br>
+    </div>
+</div>
+
+<!-- Rounded switch -->
+<label class="switch no-select">
+    <input id="theme" (change)="themeChange()" [(ngModel)]="theme" type="checkbox">
+    <span class="slider round"></span>
+</label>
