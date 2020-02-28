@@ -67,7 +67,7 @@ export class CountdownComponent implements OnInit {
     var millisecondsDelta = targetTime.getTime() - currentDate.getTime();
     var d = new Date(Date.UTC(0, 0, 0, 0, 0, 0, millisecondsDelta));
 
-    var days = this.padZeros(d.getUTCDay(), 2);
+    var days = this.padZeros(d.getUTCDate(), 2);
 
     var h = this.padZeros(d.getUTCHours(), 2);
     var m = this.padZeros(d.getUTCMinutes(), 2);
@@ -79,7 +79,7 @@ export class CountdownComponent implements OnInit {
     // var ms = d.getUTCMilliseconds();
     // var time = h + ":" + m + ":" + s + ":" + ms;
     var time = h + ":" + m + ":" + s;
-    if (d.getUTCDay() > 0) {
+    if (d.getUTCDate() > 0) {
       time = days + ":" + h + ":" + m + ":" + s;
     }
 
