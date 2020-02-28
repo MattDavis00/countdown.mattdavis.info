@@ -41,7 +41,7 @@ export class CountdownComponent implements OnInit {
           this.name = data.name;
           console.log(data.datetime);
           this.timestamp = data.datetime;
-          var timer = setInterval(this.updateClock, 1);
+          var timer = setInterval(() => this.updateClock(), 1);
         } else {
           // this.errService.handleErrors(this.el, data.errors, ["email", "password"]);
         }
@@ -65,7 +65,7 @@ export class CountdownComponent implements OnInit {
     var currentDate = new Date();
     var targetTime = new Date(this.timestamp);
     var millisecondsDelta = targetTime.getTime() - currentDate.getTime();
-    var d = new Date(millisecondsDelta);
+    var d = new Date(Date.UTC(0, 0, 0, 0, 0, 0, millisecondsDelta));
     // console.log(d);
     console.log(currentDate);
     console.log(targetTime);
@@ -73,26 +73,23 @@ export class CountdownComponent implements OnInit {
     // var m = this.padZeros(d.getMinutes(), 2);
     // var s = this.padZeros(d.getSeconds(), 2);
     // var ms = this.padZeros(d.getMilliseconds(), 3);
-    var h = d.getHours();
-    var m = d.getMinutes();
-    var s = d.getSeconds();
-    var ms = d.getMilliseconds();
+    var h = d.getUTCHours();
+    var m = d.getUTCMinutes();
+    var s = d.getUTCSeconds();
+    var ms = d.getUTCMilliseconds();
     // var time = h + ":" + m + ":" + s + ":" + ms;
     var time = h + ":" + m + ":" + s;
     if (millisecondsDelta <= 0)
       time = "00:00:00";
 
-    time = "11:11:11";
     this.timeRemaining = time;
   }
   
   themeChange() {
     if (this.theme) {
-      document.getElementsByClassName('column')[0].classList.remove("dark");
-      document.getElementsByClassName('clock')[0].classList.remove("dark");
+      document.body.setAttribute('data-theme', 'light')
     } else {
-      document.getElementsByClassName('column')[0].classList.add("dark");
-      document.getElementsByClassName('clock')[0].classList.add("dark");
+      document.body.setAttribute('data-theme', 'dark')
     }
   }
 
