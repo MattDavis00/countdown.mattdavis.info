@@ -41,13 +41,14 @@ try {
 
         var val = new Validation();
         val.name(request.name);
-        val.name(request.datetime);
+        val.date(request.datetime);
         if (val.getOutput().success) {
 
             var countdownID = randomID(4);
 
+            var timestamp = new Date(request.datetime.data);
             var sql = "INSERT INTO countdown (ID, Name, DateTime) VALUES (?,?,?)";
-            con.query(sql, [countdownID, request.name.data, request.datetime.data], function (err, result) {
+            con.query(sql, [countdownID, request.name.data, timestamp], function (err, result) {
                 if (!err)
                 {
                     console.log("Number of records inserted: " + result.affectedRows);

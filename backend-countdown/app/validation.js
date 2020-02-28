@@ -32,7 +32,7 @@ class Validation {
         if (this.defined(name))
         {
             if (name.data.length > 20) {
-                this.handleFail(name, "Name is over 50 characters.");
+                this.handleFail(name, "Name is over 20 characters.");
             }
             if (name.data.length <=0) {
                 this.handleFail(name, "Please enter your name.");
@@ -41,6 +41,22 @@ class Validation {
         else
         {
             this.handleFail(name, "Please enter your name.");
+        }
+    }
+
+    date(date) {
+        if (this.defined(date))
+        {
+            var currentDate = new Date();
+            var dateGiven = new Date(date.data);
+
+            if (dateGiven.getTime() - currentDate.getTime() <= 0) {
+                this.handleFail(date, "Date entered must be in the future.");
+            }
+        }
+        else
+        {
+            this.handleFail(date, "Please a valid date.");
         }
     }
 
