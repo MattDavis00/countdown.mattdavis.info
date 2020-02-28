@@ -56,7 +56,7 @@ export class CountdownComponent implements OnInit {
 
   padZeros(data, desiredLength) {
     while (data.toString().length < desiredLength) {
-      data += "0" + data;
+      data = "0" + data.toString();
     }
     return data;
   }
@@ -66,19 +66,23 @@ export class CountdownComponent implements OnInit {
     var targetTime = new Date(this.timestamp);
     var millisecondsDelta = targetTime.getTime() - currentDate.getTime();
     var d = new Date(Date.UTC(0, 0, 0, 0, 0, 0, millisecondsDelta));
-    // console.log(d);
-    console.log(currentDate);
-    console.log(targetTime);
-    // var h = this.padZeros(d.getHours(), 2);
-    // var m = this.padZeros(d.getMinutes(), 2);
-    // var s = this.padZeros(d.getSeconds(), 2);
-    // var ms = this.padZeros(d.getMilliseconds(), 3);
-    var h = d.getUTCHours();
-    var m = d.getUTCMinutes();
-    var s = d.getUTCSeconds();
-    var ms = d.getUTCMilliseconds();
+
+    var days = this.padZeros(d.getUTCDay(), 2);
+
+    var h = this.padZeros(d.getUTCHours(), 2);
+    var m = this.padZeros(d.getUTCMinutes(), 2);
+    var s = this.padZeros(d.getUTCSeconds(), 2);
+    var ms = this.padZeros(d.getUTCMilliseconds(), 3);
+    // var h = d.getUTCHours();
+    // var m = d.getUTCMinutes();
+    // var s = d.getUTCSeconds();
+    // var ms = d.getUTCMilliseconds();
     // var time = h + ":" + m + ":" + s + ":" + ms;
     var time = h + ":" + m + ":" + s;
+    if (d.getUTCDay() > 0) {
+      time = days + ":" + h + ":" + m + ":" + s;
+    }
+
     if (millisecondsDelta <= 0)
       time = "00:00:00";
 

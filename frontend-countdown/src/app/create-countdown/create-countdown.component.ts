@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import backendURL from '../backendURL';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-countdown',
@@ -17,7 +18,7 @@ export class CreateCountdownComponent implements OnInit {
   hour: string = "16";
   minute: string = "30";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public router: Router) { }
 
   ngOnInit() {
     var currentDate = new Date();
@@ -47,7 +48,7 @@ export class CreateCountdownComponent implements OnInit {
       data  => {
         console.log("POST Request is successful ", data);
         if (data.success) {
-          
+          this.router.navigate(['/id/' + data.id]);
         } else {
           // this.errService.handleErrors(this.el, data.errors, ["email", "password"]);
         }
