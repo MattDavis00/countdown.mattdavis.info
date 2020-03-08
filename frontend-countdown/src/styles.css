@@ -140,13 +140,13 @@ a:hover {
     padding: 10px;
     text-align: center;
     /* text-decoration: none; */
-    color: #dddddd;
-    background-color: #444444;
+    color: var(--color);
+    background-color: var(--slider-bg);
     user-select: none;
 }
   
 .a-button:hover {
-    color: var(--white);
+    color: var(--color);
     background-color: rgba(69, 90, 100, 1.0);
 }
 
@@ -208,12 +208,7 @@ a:hover {
     transition: .6s;
 }
 
-input:checked + .slider {
-    background-color: #dddddd;
-}
-
 input:checked + .slider:before {
-    background-color: var(--slider-bg);
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);

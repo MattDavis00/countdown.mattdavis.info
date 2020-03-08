@@ -63,11 +63,9 @@ export class CreateCountdownComponent implements OnInit {
 
   themeChange() {
     if (this.theme) {
-      document.getElementsByClassName('column')[0].classList.remove("dark");
-      document.getElementsByClassName('clock')[0].classList.remove("dark");
+      document.body.setAttribute('data-theme', 'light')
     } else {
-      document.getElementsByClassName('column')[0].classList.add("dark");
-      document.getElementsByClassName('clock')[0].classList.add("dark");
+      document.body.setAttribute('data-theme', 'dark')
     }
   }
 
