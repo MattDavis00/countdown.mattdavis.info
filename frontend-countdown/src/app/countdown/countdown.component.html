@@ -4,7 +4,13 @@
         <h2 name="timeRemaining">{{name}}</h2>
         <div>in</div>
     </div>
-    <h1 name="timeRemaining" class="clock">{{timeRemaining}}</h1>
+    <!-- <h1 name="timeRemaining" class="clock">{{timeRemaining}}</h1> -->
+    <div class="clock">
+        <div class="unit" *ngFor="let value of timeRemaining">
+            <h1>{{value.time}}</h1>
+            <h2>{{value.unit}}</h2>
+        </div>
+    </div>
 </div>
 
 <!-- Rounded switch -->

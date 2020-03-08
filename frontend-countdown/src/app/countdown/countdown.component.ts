@@ -12,7 +12,7 @@ import backendURL from '../backendURL';
 export class CountdownComponent implements OnInit {
 
   theme: boolean = false;
-  timeRemaining: string = "00:00:00";
+  timeRemaining: Object[] = [{time: "00", unit: "seconds"}];
 
   id: string = "";
   name: string = "";
@@ -41,7 +41,7 @@ export class CountdownComponent implements OnInit {
           this.name = data.name;
           console.log(data.datetime);
           this.timestamp = data.datetime;
-          var timer = setInterval(() => this.updateClock(), 1);
+          var timer = setInterval(() => this.updateClock(), 10);
         } else {
           // this.errService.handleErrors(this.el, data.errors, ["email", "password"]);
         }
@@ -67,24 +67,37 @@ export class CountdownComponent implements OnInit {
     var millisecondsDelta = targetTime.getTime() - currentDate.getTime();
     var d = new Date(Date.UTC(0, 0, 0, 0, 0, 0, millisecondsDelta));
 
-    var days = this.padZeros(d.getUTCDate(), 2);
+    var days = this.padZeros(Math.floor(millisecondsDelta / 1000 / 60 / 60 / 24), 2);
+    var hours = this.padZeros(Math.floor(millisecondsDelta / 1000 / 60 / 60) % 24, 2);
+    var minutes = this.padZeros(Math.floor(millisecondsDelta / 1000 / 60) % 60, 2);
+    var seconds = this.padZeros(Math.floor(millisecondsDelta / 1000) % 60, 2);
+    var ms = this.padZeros(Math.floor(millisecondsDelta), 3);
 
-    var h = this.padZeros(d.getUTCHours(), 2);
-    var m = this.padZeros(d.getUTCMinutes(), 2);
-    var s = this.padZeros(d.getUTCSeconds(), 2);
-    var ms = this.padZeros(d.getUTCMilliseconds(), 3);
-    // var h = d.getUTCHours();
-    // var m = d.getUTCMinutes();
-    // var s = d.getUTCSeconds();
-    // var ms = d.getUTCMilliseconds();
-    // var time = h + ":" + m + ":" + s + ":" + ms;
-    var time = h + ":" + m + ":" + s;
-    if (d.getUTCDate() > 0) {
-      time = days + ":" + h + ":" + m + ":" + s;
+    var time = [];
+    var addRest = false;
+
+    if (days > 0 || addRest) {
+      time.push({time: days, unit: "days"});
+      time.push({time: ":", unit: ""});
+      addRest = true;
     }
+    if (hours > 0 || addRest) {
+      time.push({time: hours, unit: "hours"});
+      time.push({time: ":", unit: ""});
+      addRest = true;
+    }
+    if (minutes > 0 || addRest) {
+      time.push({time: minutes, unit: "minutes"});
+      time.push({time: ":", unit: ""});
+      addRest = true;
+    }
+    if (seconds > 0 || addRest)
+      time.push({time: seconds, unit: "seconds"});
 
-    if (millisecondsDelta <= 0)
-      time = "00:00:00";
+    // If countdown is complete, display 0 seconds.
+    if (millisecondsDelta <= 0) {
+      time.push({time: "00", unit: "seconds"});
+    }
 
     this.timeRemaining = time;
   }
