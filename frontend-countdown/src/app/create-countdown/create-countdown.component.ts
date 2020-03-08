@@ -23,10 +23,17 @@ export class CreateCountdownComponent implements OnInit {
   ngOnInit() {
     var currentDate = new Date();
     this.year = currentDate.getFullYear().toString();
-    this.month = (currentDate.getMonth() + 1).toString();
-    this.day = currentDate.getDate().toString();
-    this.hour = currentDate.getHours().toString();
-    this.minute = currentDate.getMinutes().toString();
+    this.month = (this.padZeros(currentDate.getMonth() + 1, 2)).toString();
+    this.day = this.padZeros(currentDate.getDate(), 2).toString();
+    this.hour = this.padZeros(currentDate.getHours(), 2).toString();
+    this.minute = this.padZeros(currentDate.getMinutes(), 2).toString();
+  }
+
+  padZeros(data, desiredLength) {
+    while (data.toString().length < desiredLength) {
+      data = "0" + data.toString();
+    }
+    return data;
   }
 
   create() {

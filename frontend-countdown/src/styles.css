@@ -13,14 +13,16 @@ html {
     --color-bg: #222222;
     --input-bg: #292929;
     --slider-bg: #444444;
+    --button-bg: #444444;
     --slider-dot: #dddddd;
     --color: #dddddd;
 }
 
 [data-theme="light"] {
     --color-bg: #ffffff;
-    --input-bg: #dddddd;
+    --input-bg: #f6f6f6;
     --slider-bg: #dddddd;
+    --button-bg: #444444;
     --slider-dot: #222222;
     --color: #000000;
 }
@@ -71,9 +73,12 @@ body {
 }
 
 .row {
+    -webkit-transition: var(--transition-time);
+    transition: var(--transition-time);
     display: flex;
     justify-content: center;
     margin-bottom: 1rem;
+    color: var(--color);
 }
 
 .countdown-title {
@@ -107,11 +112,19 @@ body {
 
 /* --------------- Input Fields -------------- */
 
+input:focus {
+    outline: none;
+}
+
 .input-title, .input-date, .input-time {
+    -webkit-transition: var(--transition-time);
+    transition: var(--transition-time);
     background-color: var(--input-bg);
 }
 
 .input-title > input, .input-date > input, .input-time > input {
+    -webkit-transition: var(--transition-time);
+    transition: var(--transition-time);
     height: 3rem;
     font-size: 2rem;
     background-color: transparent;
@@ -157,17 +170,18 @@ a:hover {
 }
 
 .a-button, .a-button:visited, .a-button:active  {
+    -webkit-transition: var(--transition-time);
+    transition: var(--transition-time);
     width: 100%;
     padding: 10px;
     text-align: center;
-    /* text-decoration: none; */
-    color: var(--color);
-    background-color: var(--slider-bg);
+    color: #dddddd;
+    background-color: var(--button-bg);
     user-select: none;
 }
   
 .a-button:hover {
-    color: var(--color);
+    color: #dddddd;
     background-color: rgba(69, 90, 100, 1.0);
 }
 
@@ -212,8 +226,8 @@ a:hover {
     right: 0;
     bottom: 0;
     background-color: var(--slider-bg);
-    -webkit-transition: .6s;
-    transition: .6s;
+    -webkit-transition: var(--transition-time);
+    transition: var(--transition-time);
 
 }
 
@@ -225,8 +239,8 @@ a:hover {
     left: 4px;
     bottom: 4px;
     background-color: var(--slider-dot);
-    -webkit-transition: .6s;
-    transition: .6s;
+    -webkit-transition: var(--transition-time);
+    transition: var(--transition-time);
 }
 
 input:checked + .slider:before {
