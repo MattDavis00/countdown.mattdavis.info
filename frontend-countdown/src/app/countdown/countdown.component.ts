@@ -91,13 +91,12 @@ export class CountdownComponent implements OnInit {
       time.push({time: ":", unit: ""});
       addRest = true;
     }
-    if (seconds > 0 || addRest)
+    if (seconds >= 0 || addRest)
       time.push({time: seconds, unit: "seconds"});
 
     // If countdown is complete, display 0 seconds.
-    if (millisecondsDelta <= 0) {
-      time.push({time: "00", unit: "seconds"});
-    }
+    if (millisecondsDelta <= 0)
+      time.push({time: "0", unit: "seconds"});
 
     this.timeRemaining = time;
   }
