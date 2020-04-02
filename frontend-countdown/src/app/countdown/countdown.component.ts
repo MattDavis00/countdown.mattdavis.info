@@ -67,6 +67,9 @@ export class CountdownComponent implements OnInit {
     var millisecondsDelta = targetTime.getTime() - currentDate.getTime();
     var d = new Date(Date.UTC(0, 0, 0, 0, 0, 0, millisecondsDelta));
 
+    if (millisecondsDelta <= 0)
+      millisecondsDelta = 0;
+
     var days = this.padZeros(Math.floor(millisecondsDelta / 1000 / 60 / 60 / 24), 2);
     var hours = this.padZeros(Math.floor(millisecondsDelta / 1000 / 60 / 60) % 24, 2);
     var minutes = this.padZeros(Math.floor(millisecondsDelta / 1000 / 60) % 60, 2);
@@ -91,7 +94,7 @@ export class CountdownComponent implements OnInit {
       time.push({time: ":", unit: ""});
       addRest = true;
     }
-    if (seconds >= 0 || addRest)
+    if (seconds > 0 || addRest)
       time.push({time: seconds, unit: "seconds"});
 
     // If countdown is complete, display 0 seconds.
