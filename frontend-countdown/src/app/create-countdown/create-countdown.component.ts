@@ -19,7 +19,7 @@ export class CreateCountdownComponent implements OnInit {
   hour: string = "16";
   minute: string = "30";
 
-  constructor(private http: HttpClient, public router: Router, private errService: HandleErrorsService, private el: ElementRef) { }
+  constructor(private http: HttpClient, public router: Router, public errService: HandleErrorsService, private el: ElementRef) { }
 
   ngOnInit() {
     var currentDate = new Date();
