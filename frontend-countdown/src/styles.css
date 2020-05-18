@@ -267,6 +267,34 @@ CSS Alterations For Mobile Devices
     .clock {
         font-size: 16vw;
     }
+
+    .create-countdown {
+        width: 100%;
+    }
+
+    .input-title > input, .input-date > input, .input-time > input {
+        font-size: 1.4rem;
+    }
+
+    .year {
+        width: 4rem;
+    }
+    
+    .month {
+        width: 2.5rem;
+    }
+    
+    .day {
+        width: 2.5rem;
+    }
+    
+    .hour {
+        width: 2.5rem;
+    }
+    
+    .minute {
+        width: 2.5rem;
+    }
   
 }
   
