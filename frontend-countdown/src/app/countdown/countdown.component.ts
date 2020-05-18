@@ -11,7 +11,7 @@ import backendURL from '../backendURL';
 })
 export class CountdownComponent implements OnInit {
 
-  theme: boolean = false;
+  theme: boolean = (document.body.getAttribute('data-theme') == "light" ? true : false);
   timeRemaining: Object[] = [{time: "00", unit: "seconds"}];
 
   id: string = "";

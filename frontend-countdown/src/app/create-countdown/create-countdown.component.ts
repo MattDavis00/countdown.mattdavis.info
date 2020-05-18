@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class CreateCountdownComponent implements OnInit {
 
-  theme: boolean = false;
+  theme: boolean = (document.body.getAttribute('data-theme') == "light" ? true : false);
   title: string = "";
   year: string = "2020";
   month: string = "12";
