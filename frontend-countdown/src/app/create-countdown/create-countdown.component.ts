@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import backendURL from '../backendURL';
 import { Router } from '@angular/router';
+import { HandleErrorsService } from '../error-handler.service';
 
 @Component({
   selector: 'app-create-countdown',
@@ -18,7 +19,7 @@ export class CreateCountdownComponent implements OnInit {
   hour: string = "16";
   minute: string = "30";
 
-  constructor(private http: HttpClient, public router: Router) { }
+  constructor(private http: HttpClient, public router: Router, private errService: HandleErrorsService, private el: ElementRef) { }
 
   ngOnInit() {
     var currentDate = new Date();
@@ -48,8 +49,8 @@ export class CreateCountdownComponent implements OnInit {
       datetime: string;
     }>(backendURL + "/create",
     {
-      "name": {"data": this.title, "id": "title"},
-      "datetime": {"data": utcString, "id": "datetime"}
+      "name": {"data": this.title, "id": "input-title"},
+      "datetime": {"data": utcString, "id": "input-date"}
     })
     .subscribe(
       data  => {
@@ -57,12 +58,12 @@ export class CreateCountdownComponent implements OnInit {
         if (data.success) {
           this.router.navigate(['/id/' + data.id]);
         } else {
-          // this.errService.handleErrors(this.el, data.errors, ["email", "password"]);
+          this.errService.handleErrors(this.el, data.errors, ["input-title", "input-date", "input-time"]);
         }
       },
       error  => {
         console.log("Error", error);
-        // this.errService.handleErrors(this.el, [{"id": "fatal", "reason": "Unable to perform request. Please try again."}], []);
+        this.errService.handleErrors(this.el, [{"id": "fatal", "reason": "Unable to perform request. Please try again."}], []);
       }
 
     );
