@@ -53,3 +53,13 @@ jobs:
         run: rustup component add rustfmt --toolchain nightly
       - name: Lint (rustfmt)
         run: cargo +nightly fmt --check
+
+  bench:
+    name: Benchmark
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Rust nightly
+        run: rustup install nightly
+      - name: Benchmark (cargo bench)
+        run: cargo +nightly bench
