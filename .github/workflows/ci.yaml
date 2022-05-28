@@ -15,15 +15,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install Rust nightly
+        run: rustup install nightly
       - name: Build
         run: cargo +nightly build --verbose
 
   test:
-    name: Test
+    name: Unit Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Test
+      - name: Install Rust nightly
+        run: rustup install nightly
+      - name: Run tests
         run: cargo +nightly test --verbose
 
   clippy:
@@ -31,6 +35,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install Rust nightly
+        run: rustup install nightly
       - name: Clippy
         run: cargo +nightly clippy
 
@@ -39,5 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install Rust nightly
+        run: rustup install nightly
       - name: Lint (rustfmt)
         run: cargo +nightly fmt --check
