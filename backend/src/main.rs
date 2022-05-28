@@ -1,10 +1,14 @@
 #![feature(test)]
 extern crate test;
-#[macro_use] extern crate rocket;
-use std::{ops::Deref, fmt::Display};
+#[macro_use]
+extern crate rocket;
+use chrono::{DateTime, Utc};
 use rand::{self, Rng};
-use chrono::{Utc, DateTime};
-use rocket::{tokio::time::{sleep, Duration}, request::FromParam};
+use rocket::{
+    request::FromParam,
+    tokio::time::{sleep, Duration},
+};
+use std::{fmt::Display, ops::Deref};
 
 struct Event {
     id: String,
@@ -18,7 +22,7 @@ impl Display for Event {
     }
 }
 
-struct Timestamp (DateTime<Utc>);
+struct Timestamp(DateTime<Utc>);
 
 impl Deref for Timestamp {
     type Target = DateTime<Utc>;
@@ -46,8 +50,8 @@ fn random_id() -> String {
 
     let id: String = (0..ID_LENGTH)
         .map(|_| {
-        let idx = rng.gen_range(0..CHARSET.len());
-        CHARSET[idx] as char
+            let idx = rng.gen_range(0..CHARSET.len());
+            CHARSET[idx] as char
         })
         .collect();
 
@@ -79,15 +83,14 @@ async fn delay(seconds: u64) -> String {
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build()
-        .mount("/", routes![new_event, delay, index])
+    rocket::build().mount("/", routes![new_event, delay, index])
 }
 
 #[cfg(test)]
 mod tests {
+    use super::*;
     use chrono::TimeZone;
     use test::Bencher;
-    use super::*;
 
     #[bench]
     fn bench_new_event(b: &mut Bencher) {
@@ -117,7 +120,10 @@ mod tests {
             name,
             date,
         };
-        assert_eq!(event.to_string(), "ABCD Test Event 2018-01-01T00:00:00+00:00");
+        assert_eq!(
+            event.to_string(),
+            "ABCD Test Event 2018-01-01T00:00:00+00:00"
+        );
     }
 
     #[test]
