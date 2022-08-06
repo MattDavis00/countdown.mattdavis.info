@@ -4,12 +4,9 @@ extern crate test;
 extern crate rocket;
 use chrono::{DateTime, Utc};
 use rand::{self, Rng};
+use rocket::request::FromParam;
 use rocket::response::status::{BadRequest, NotFound};
 use rocket::serde::json::Json;
-use rocket::{
-    request::FromParam,
-    tokio::time::{sleep, Duration},
-};
 use rusqlite::types::{FromSql, FromSqlError, FromSqlResult, ValueRef};
 use rusqlite::{params, Connection};
 use serde::{Deserialize, Serialize};
@@ -80,9 +77,8 @@ struct NewEvent {
 }
 
 fn db_connection() -> Connection {
-    // let path = "./database.sqlite3";
-    // let conn = Connection::open(path).unwrap();
-    let conn = Connection::open_in_memory().unwrap();
+    let path = "./database.sqlite3";
+    let conn = Connection::open(path).unwrap();
 
     conn.execute(
         "CREATE TABLE IF NOT EXISTS event (
@@ -129,7 +125,7 @@ fn get_event(id: &str) -> Result<Event, Box<dyn Error>> {
     Ok(event)
 }
 
-#[post("/new-event", data = "<data>")]
+#[post("/event", data = "<data>")]
 fn post_new_event(data: Json<NewEvent>) -> Result<String, BadRequest<String>> {
     let event = Event {
         id: random_id(),
@@ -143,7 +139,7 @@ fn post_new_event(data: Json<NewEvent>) -> Result<String, BadRequest<String>> {
     }
 }
 
-#[get("/new-event/<id>")]
+#[get("/event/<id>")]
 fn get_event_by_id(id: String) -> Result<Json<Event>, NotFound<String>> {
     let event = get_event(&id);
 
@@ -165,15 +161,9 @@ fn index() -> String {
     )
 }
 
-#[get("/delay/<seconds>")]
-async fn delay(seconds: u64) -> String {
-    sleep(Duration::from_secs(seconds)).await;
-    format!("Waited for {} seconds", seconds)
-}
-
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![get_event_by_id, delay, index, post_new_event])
+    rocket::build().mount("/", routes![get_event_by_id, index, post_new_event])
 }
 
 #[cfg(test)]
@@ -202,6 +192,31 @@ mod tests {
             };
             let _ = save_event(&event);
             let _ = get_event(&event.id);
+        });
+    }
+
+    #[bench]
+    fn bench_get_event(b: &mut Bencher) {
+        let event = Event {
+            id: random_id(),
+            name: "Save then get bench test".to_string(),
+            date: Timestamp(Utc.ymd(2016, 1, 1).and_hms(0, 0, 0)),
+        };
+        let _ = save_event(&event);
+        b.iter(|| {
+            let _ = get_event(&event.id);
+        });
+    }
+
+    #[bench]
+    fn bench_save_event(b: &mut Bencher) {
+        b.iter(|| {
+            let event = Event {
+                id: random_id(),
+                name: "Save then get bench test".to_string(),
+                date: Timestamp(Utc.ymd(2016, 1, 1).and_hms(0, 0, 0)),
+            };
+            let _ = save_event(&event);
         });
     }
 
