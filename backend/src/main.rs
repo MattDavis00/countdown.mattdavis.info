@@ -2,6 +2,7 @@
 #[macro_use]
 extern crate rocket;
 extern crate test;
+
 use backend::countdown::countdown_manager::CountdownManager;
 use backend::countdown::event::{Event, NewEventBody};
 use chrono::Utc;
@@ -9,6 +10,7 @@ use rocket::response::status::{BadRequest, NotFound};
 use rocket::serde::json::Json;
 use rocket::{Build, Rocket, State};
 use rocket_cors::AllowedOrigins;
+use std::env;
 use std::sync::{Arc, Mutex};
 
 struct ApplicationState {
@@ -17,13 +19,21 @@ struct ApplicationState {
 
 #[launch]
 fn rocket() -> Rocket<Build> {
+    let args: Vec<String> = env::args().collect();
+    let mode = &args[1];
+    let frontend_url = match mode.as_str() {
+        "dev" | "development" => "http://127.0.0.1:5173/",
+        "prod" | "production" => "https://countdown.mattdavis.info",
+        _ => panic!("Was expecting CLI argument for mode ('dev' or 'prod')"),
+    };
+
     let cm = CountdownManager::new(None);
     let state = ApplicationState {
         cm: Arc::new(Mutex::new(cm)),
     };
 
     let cors = rocket_cors::CorsOptions {
-        allowed_origins: AllowedOrigins::some_exact(&["http://127.0.0.1:5173"]),
+        allowed_origins: AllowedOrigins::some_exact(&[frontend_url]),
         allow_credentials: true,
         ..Default::default()
     }
