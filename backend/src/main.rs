@@ -1,13 +1,14 @@
 #![feature(test)]
-extern crate test;
 #[macro_use]
 extern crate rocket;
+extern crate test;
 use backend::countdown::countdown_manager::CountdownManager;
 use backend::countdown::event::{Event, NewEventBody};
 use chrono::Utc;
 use rocket::response::status::{BadRequest, NotFound};
 use rocket::serde::json::Json;
 use rocket::{Build, Rocket, State};
+use rocket_cors::AllowedOrigins;
 use std::sync::{Arc, Mutex};
 
 struct ApplicationState {
@@ -20,8 +21,19 @@ fn rocket() -> Rocket<Build> {
     let state = ApplicationState {
         cm: Arc::new(Mutex::new(cm)),
     };
+
+    let cors = rocket_cors::CorsOptions {
+        allowed_origins: AllowedOrigins::some_exact(&["http://127.0.0.1:5173"]),
+        allow_credentials: true,
+        ..Default::default()
+    }
+    .to_cors()
+    .expect("Error creating CORS fairing");
+
+    println!("{:#?}", cors);
     rocket::build()
         .mount("/", routes![get_event_by_id, index, post_new_event])
+        .attach(cors)
         .manage(state)
 }
 
