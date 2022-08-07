@@ -91,7 +91,6 @@
 	h1 {
 		grid-area: event-name;
 		margin: 0;
-		text-align: center;
 	}
 
 	h2 {
@@ -128,5 +127,6 @@
 	h2,
 	h3 {
 		margin: 0;
+		text-align: center;
 	}
 </style>
