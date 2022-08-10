@@ -23,6 +23,10 @@
 	};
 </script>
 
+<head>
+	<title>Create - Countdown Timer</title>
+</head>
+
 <main>
 	<h1>Create Countdown</h1>
 
