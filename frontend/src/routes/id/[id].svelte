@@ -45,10 +45,8 @@
 		</h3>
 
 		<div class="buttons">
-			<button class="share-button" type="button" on:click={share}>{shareButtonText}</button>
-			<button class="new-event-button" type="button" on:click={() => (window.location.href = '/')}
-				>Create new event</button
-			>
+			<button class="button share-button" type="button" on:click={share}>{shareButtonText}</button>
+			<a class="button new-event-button" href="/" type="button">Create new event</a>
 		</div>
 	</main>
 </html>
@@ -97,12 +95,6 @@
 		grid-area: event-date;
 	}
 
-	button {
-		border-radius: 0.5rem;
-		color: rgb(224, 224, 224);
-		border: none;
-	}
-
 	.buttons {
 		grid-area: buttons;
 		display: grid;
@@ -114,11 +106,20 @@
 		justify-content: center;
 	}
 
-	button {
+	.button {
+		border-radius: 0.5rem;
+		color: rgb(224, 224, 224);
+		border: none;
 		background-color: rgb(25, 118, 210);
 		font-weight: bold;
+		text-decoration: none;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.9rem;
+		display: inline-flex;
 	}
-	button:hover {
+
+	.button:hover {
 		background-color: rgb(13, 71, 161);
 		cursor: pointer;
 	}

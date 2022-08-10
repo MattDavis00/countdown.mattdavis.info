@@ -29,7 +29,9 @@
 	<input style="grid-area: event-name" placeholder="Event Name" bind:value={name} />
 	<input style="grid-area: event-date" type="datetime-local" bind:value={date} />
 
-	<button style="grid-area: create-button" type="button" on:click={createEvent}>Create</button>
+	<button class="button" style="grid-area: create-button" type="button" on:click={createEvent}
+		>Create</button
+	>
 </main>
 
 <style>
@@ -62,17 +64,14 @@
 		text-align: center;
 	}
 
-	input,
-	button {
+	input {
 		border-radius: 0.5rem;
 		color: rgb(224, 224, 224);
 		border: none;
-	}
-
-	input {
 		background-color: rgb(55, 71, 79);
 		padding: 1rem 1.5rem 1rem 1.5rem;
 	}
+
 	input::placeholder {
 		color: rgb(224, 224, 224);
 	}
@@ -83,11 +82,20 @@
 		outline: 2px solid rgb(25, 118, 210);
 	}
 
-	button {
+	.button {
+		border-radius: 0.5rem;
+		color: rgb(224, 224, 224);
+		border: none;
 		background-color: rgb(25, 118, 210);
 		font-weight: bold;
+		text-decoration: none;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.9rem;
+		display: inline-flex;
 	}
-	button:hover {
+
+	.button:hover {
 		background-color: rgb(13, 71, 161);
 		cursor: pointer;
 	}
