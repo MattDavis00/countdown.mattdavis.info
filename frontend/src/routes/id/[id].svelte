@@ -38,7 +38,7 @@
 		<h2 style="grid-area: event-date">{date.format('LLLL')}</h2>
 
 		<h3 class="time-remaining">
-			<span>{timeRemaining.days()} days</span>
+			<span>{Math.floor(timeRemaining.asDays())} days</span>
 			<span>{timeRemaining.hours()} hours</span>
 			<span>{timeRemaining.minutes()} minutes</span>
 			<span>{timeRemaining.seconds()} seconds</span>
